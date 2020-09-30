@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue++</title>
+    <!-- 개발 버전 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        a{
+            list-style: none;
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="myDropMenu" v-bind:style="myDropMenuStyle" v-cloak v-on:click='menuClick'>
+        <p v-bind:style="selectTxt">{{selectTxtValue}}</p>
+        <ul v-bind:style="menus"><li v-for="i in datas" v-bind:style='menusItem' v-on:click.stop='itemClick(i)'>{{i}}</li></ul>
+    </div>
+
+    <script>
+        let myDropMenu = new Vue({
+            el: '#myDropMenu',
+            data: {
+                'datas' : ['메뉴1', '메뉴2'],
+                'selectTxtValue' :'선택해주세요',
+                'myDropMenuStyle': {
+                    width: '100px'
+                },
+                'selectTxt': {
+                    width: '100px',
+                    height: '100px',
+                    backgroundColor: 'grey',
+                    textAlign: 'center',
+                    lineHeight: '100px',
+                    color: 'white',
+                    fontWeight: 'bold'
+                },
+                'menus': {
+                    lineHeight: 'normal',
+                    listStyle: 'none',
+                    padding: '2px',
+                    margin: '0',
+                    backgroundColor: 'grey',
+                    display: 'none',
+                },
+                'menusItem': {
+                    lineHeight: 'normal',
+                    backgroundColor: 'green',
+                    textAlign: 'center',
+                    color: 'white',
+                    border: '1px solid white',
+                    padding: '5px',
+                    margin: '5px'
+                }
+            },
+            methods: {
+                menuClick : function(){
+                    this.menus.display = 'block';
+                },
+                itemClick : function(i){
+                    this.menus.display = 'none';
+                    this.selectTxtValue = i;
+                }
+            },
+        });
+    </script>
+</body>
+</html>
