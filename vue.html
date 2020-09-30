@@ -1,0 +1,127 @@
+// 작성 중
+// - Component ... 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue++</title>
+    <!-- 개발 버전 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="target" v-cloak v-bind:class="classObject">
+        <p>{{ txt }}</p>
+        <div>
+            <button onclick="vueUpdate()">Update</button>
+            <button v-on:click="targetVue.updateTarget()">Update2</button>
+        </div>  
+        <my-component></my-component>
+        <div is="onlyTargetComponent"></div>
+        <onlyTargetComponent></onlyTargetComponent>
+    </div>
+    
+    <!-- <script src="./js/designVueScript.js"></script> -->
+    <script>
+        // Global Component는 Root 전에 생성해야함
+        // component 소문자 - 하이픈 규칙 따르기
+        Vue.component('my-component', {
+            template: '<div>사용자 정의 컴포넌트 입니다!</div>'
+        });
+
+        // Location Component 
+        let onlyTargetComponent = {
+            template: '<p>지역 안에서만 사용 가능 한 컴포넌트 입니다!</p>'
+        };
+    </script>
+    <script>
+
+        let targetVue = new Vue({
+            el: "#target",
+            data: {
+                'txt' : '생성'
+            },
+            methods:{
+                basic : function(){
+                    console.log("**BASIC Methods");
+                },
+                updateTarget : function(){
+                    this.txt = '변경2';
+                },
+            },
+            computed: {
+                classObject: function (){
+                    this.basic();
+                    console.log("*computed");
+                },
+                targetDelete(){
+
+                }
+            },
+            components: {
+                onlyTargetComponent,
+            },
+            // @
+            // Create
+            // Data & Event 비활성, 접근시 에러
+            beforeCreate(){
+                console.log("1. beforeCreate");
+            },
+            // Data & Events 활성화되어 접근 가능
+            // 가상돔은 마운트 및 렌더링 되지 않음
+            created(){
+                console.log("2. create");
+            },
+            // 렌더링이 시작 전 발생
+            beforeMount(){
+                console.log("3. beforeMount");
+            },
+
+            // @
+            // Update
+            // 모든 하위 컴포넌트까지 렌더링이 완료되었는지 보장할 수 없음
+            // 하위 컴포넌트의 mount가 종료되야 해당 컴포넌트가 실행 됨
+            // 모든 컴포넌트 렌더링 후 실행하려면 : $nextTick 
+            mounted(){
+                console.log("4. mounted");
+            },
+            // 컴포넌트의 데이터 변경하여 업데이트 시 실행
+            beforeUpdate(){
+                console.log("5. beforeUpdate");
+            },
+            // 재 렌더링 이후 실행
+            updated(){
+                console.log("6. update");
+            },
+
+            // @
+            // Delete
+            // 인스턴스 제거 직전 실행
+            beforeDestroy(){
+                console.log("7. beforeDestroy");
+            },
+            // 해당 및 하위 컴포넌트의 모든 내용을 제거 후 실행
+            destoryed(){
+                console.log("8. destroyed");
+            },
+            activated(){
+                console.log("9. activated");
+            },
+            deactivated(){
+                console.log("10. deactivated");
+            }
+        });
+
+        let vueUpdate = () => {
+            targetVue.txt = "변경"
+        };
+        let vueUpdateLifeCycle = () => {
+            this.txt = 'asd';
+            targetVue.$update()
+        };
+        
+    </script>
+</body>
+</html>
