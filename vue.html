@@ -1,4 +1,4 @@
-// 작성 중
+// (예정)
 // - Component ... 
 
 <!DOCTYPE html>
@@ -21,6 +21,26 @@
         <my-component></my-component>
         <div is="onlyTargetComponent"></div>
         <onlyTargetComponent></onlyTargetComponent>
+    </div>
+
+    <!-- 
+    *이벤트 제어
+        .stop 버블 제거
+        .prevent 링크 이동 또는 submit 제거(ex. submit -> 페이지를 다시 로드하지 않음)
+        .passive (prevent와 비슷하지만) 모바일에서 주로 사용
+        .capture 버블링보다 먼저 사용(순서의 차이)
+        .self 대상만 작동, 내부(자식)에는 사용되지 않도록
+        .once 한번만 실행
+        .native 네이티브 이벤트 호출
+    
+    *응용
+        .prevent.stop : 체이닝 가능
+        v-on:submit.prevent : 수식어만 사용 가능
+    -->
+    <div id="bubbleWrapper" v-on:click='wrapperEvt'>
+        {{wrapper}}
+        <div id="bubbleTarget" v-on:click='targetEvt'>{{target}}</div>
+        <div id="bubbleTarget2" v-on:click.stop='targetEvt2'>{{target2}}</div>
     </div>
     
     <!-- <script src="./js/designVueScript.js"></script> -->
@@ -122,6 +142,27 @@
             targetVue.$update()
         };
         
+    </script>
+    <script>
+        let vueBubble = new Vue({
+            el:"#bubbleWrapper",
+            data:{
+                'wrapper': '이벤트를 감싸고 있는 이벤트가 있는 DIV',
+                'target': '이벤트 대상 DIV',
+                'target2': '버블을 제거한 이벤트 대상 DIV',
+            },
+            methods:{
+                wrapperEvt: function(){
+                    alert("감싸고 있는 DIV를 클릭");
+                },
+                targetEvt: function(){
+                    alert("이벤트 대상 DIV를 클릭");
+                },
+                targetEvt2: function(){
+                    alert("이벤트 대상2 DIV를 클릭");
+                }
+            }
+        });
     </script>
 </body>
 </html>
