@@ -10,7 +10,7 @@
 <body>
     <div v-cloak id="root">
         <error-view v-if="personData === 'error'" @reset="reset"></error-view>
-        <search-view v-else-if="Object.keys(personData).length > 0" v-bind:datas="personData" @reset="reset"></search-view>
+        <search-view v-else-if="personData.length > 0" v-bind:datas="personData" @reset="reset"></search-view>
         <main-view v-bind:style="mainStyles" @onkeydownfunc="onKeyDown" @onclickfunc="onClick" @onchangefunc="onChange" v-else></main-view>
     </div>
 
