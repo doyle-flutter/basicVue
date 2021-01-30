@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN_Vue</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .mainViewStyle{
+            text-align: center;
+            height: 100vh;
+            color: white;
+            padding-top: 5%;
+            background-color: red;
+        }
+        .drawerStyle{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            padding-top: 5%;
+            border: 2px solid black;
+            color: white;
+            text-align: center;
+            background-color: blue;
+        }
+        .drawerStyleOpen{
+            width: 30%;
+        }
+        .drawerStyleClose{
+            width: 10%;
+        }
+        .drawerStyleBtn{
+            cursor: pointer;
+            display: inline-block;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div v-cloak id="root" class="mainViewStyle">
+        {{ main }}
+        <drawer v-bind:class="[check ?'drawerStyleOpen' :'drawerStyleClose',  'drawerStyle']" check="check" v-on:cha="cha"></drawer>
+    </div>
+    <script>
+        Vue.component(
+            'drawer', 
+            {
+                props: {
+                    check: Boolean
+                },
+                template: `
+                    <div>
+                        <p class="drawerStyleBtn" v-on:click="ch">Drawer</p>
+                    </div>
+                `,
+                data: function(){
+                    return ;
+                },
+                methods: {
+                    ch: function(e){
+                        console.log("ASD");
+                        this.$emit('cha')
+                        return; 
+                    }
+                }
+            }
+        );
+        new Vue({
+            el: '#root',
+            data: {
+                main: '메인',
+                check: true,
+            },
+            methods: {
+                cha: function(){
+                    this.check = !this.check;
+                    return;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
